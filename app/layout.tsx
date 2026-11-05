@@ -51,6 +51,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             >
               Todos
             </Button>
+            <button>
+              
+            Logout</button>
           </Link>
         </nav>
         {children}
