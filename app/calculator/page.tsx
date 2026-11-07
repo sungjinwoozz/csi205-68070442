@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 type Phase = "first" | "operator" | "second";
-type Operator = "+" | "-" | "*";
+type Operator = "+" | "-" | "*" | "/";
 
 type CalculatorState = {
   phase: Phase;
@@ -26,7 +26,8 @@ const initialState: CalculatorState = {
 function calculate(first: number, second: number, operator: Operator) {
   if (operator === "+") return first + second;
   if (operator === "-") return first - second;
-  return first * second;
+  if (operator === "*") return first * second;
+  return second === 0 ? NaN : first / second;
 }
 
 function formatDisplay(display: string) {
@@ -118,6 +119,7 @@ export default function Page() {
       else if (event.key === "+") operatorClick("+");
       else if (event.key === "-") operatorClick("-");
       else if (event.key === "*") operatorClick("*");
+      else if (event.key === "/") operatorClick("/");
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -144,27 +146,27 @@ export default function Page() {
               <button className="calculator-purple" onClick={() => numberClick("7")}>7</button>
               <button className="calculator-purple" onClick={() => numberClick("8")}>8</button>
               <button className="calculator-purple" onClick={() => numberClick("9")}>9</button>
-              <button className="calculator-green">÷</button>
-              <button className="calculator-green">√</button>
+              <button className="calculator-green" onClick={() => operatorClick("/")}>/</button>
+              <button className="calculator-green">sqrt</button>
             </div>
             <div className="calculator-button-row">
               <button className="calculator-purple" onClick={() => numberClick("4")}>4</button>
               <button className="calculator-purple" onClick={() => numberClick("5")}>5</button>
               <button className="calculator-purple" onClick={() => numberClick("6")}>6</button>
-              <button className="calculator-green" onClick={() => operatorClick("*")}>×</button>
+              <button className="calculator-green" onClick={() => operatorClick("*")}>*</button>
               <button className="calculator-green">%</button>
             </div>
             <div className="calculator-button-row">
               <button className="calculator-purple" onClick={() => numberClick("1")}>1</button>
               <button className="calculator-purple" onClick={() => numberClick("2")}>2</button>
               <button className="calculator-purple" onClick={() => numberClick("3")}>3</button>
-              <button className="calculator-green" onClick={() => operatorClick("-")}>−</button>
+              <button className="calculator-green" onClick={() => operatorClick("-")}>-</button>
               <button className="calculator-green">1/x</button>
             </div>
             <div className="calculator-button-row">
               <button className="calculator-purple" onClick={() => numberClick("0")}>0</button>
               <button className="calculator-purple">.</button>
-              <button className="calculator-purple">±</button>
+              <button className="calculator-purple">+/-</button>
               <button className="calculator-green" onClick={() => operatorClick("+")}>+</button>
               <button className="calculator-green" onClick={equalClick}>=</button>
             </div>
