@@ -19,8 +19,8 @@ export default function Page() {
   };
 
   return (
-    <section className="mx-auto mt-4 w-full max-w-[650px]">
-      <div className="h-[350px] overflow-x-hidden overflow-y-auto rounded-lg border border-sky-300 bg-sky-50 p-2">
+    <section className="mx-auto mt-4 w-full max-w-2xl">
+      <div className="h-350px overflow-x-hidden overflow-y-auto rounded-lg border border-sky-300 bg-sky-50 p-2">
         {carts.length === 0 ? (
           <p className="grid h-full place-items-center text-sm text-slate-500">
             Your cart is empty.

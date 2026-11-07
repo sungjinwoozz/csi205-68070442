@@ -15,7 +15,7 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto mt-4 h-[350px] w-full max-w-[650px] overflow-x-hidden overflow-y-auto rounded-lg border border-sky-300 bg-sky-50 p-2">
+    <div className="mx-auto mt-4 h-88 w-full max-w-2xl overflow-x-hidden overflow-y-auto rounded-lg border border-sky-300 bg-sky-50 p-2">
       <div className="grid grid-cols-5 gap-2">
         {products.map((product: Product) => (
           <article key={product.id} className="flex min-w-0 flex-col">
