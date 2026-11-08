@@ -1,5 +1,7 @@
 'use client';
 
+import { CheckLogin } from "@/utils/login";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { StaticImageData } from "next/image";
 
@@ -24,6 +26,12 @@ const Animation = ({
   ballRadius,
   velocity,
 }: AnimationProps) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    CheckLogin(router, "/animation");
+  }, [router]);
+
   const _fieldHeight = fieldHeight ?? 480;
   const _fieldWidth = fieldWidth ?? 640;
   const _ballRadius = ballRadius ?? 50;

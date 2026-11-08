@@ -1,89 +1,94 @@
-// "use client ";
+"use client";
 
-// import { Backdrop } from "@/components/tailgrids/core/overlay";
-// import {
-//   Dialog,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogDescription,
-//   DialogBody,
-//   DialogFooter,
-//   DialogClose,
-// } from "@/components/tailgrids/core/dialog";
+import { useRouter } from "next/navigation";
+import { Backdrop } from "@/components/tailgrids/core/overlay";
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogBody,
+  DialogFooter,
+  DialogClose,
+} from "@/components/tailgrids/core/dialog";
 
-// import {
-//   InputGroup,
-//   InputGroupAddon,
-//   InputGroupInput,
-//   InputGroupButton,
-//   InputGroupTextarea,
-// } from "@/components/tailgrids/core/input-group";
-// import { Keyboard } from "@tailgrids/icons";
-// import { login } from "../data/credentials";
-// import { useRouter } from "next/navigation";
-// import { Router } from "next/router";
-// import { useEffect } from "react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/tailgrids/core/input-group";
+import { EyeDisabled, Keyboard } from "@tailgrids/icons";
+import { login } from "../data/credentials";
 
-// export default function Page() {
-//   const rounter = useRouter();
-//   useEffect(() => {} , [rounter])
+export default function LoginPage() {
+  const router = useRouter();
 
-//   const handleLogin = () => {
-//     const userDom = document.getElementById("user") as HTMLInputElement;
-//     const passDom = document.getElementById("pass") as HTMLInputElement;
+  const handleLogin = () => {
+    const userDom = document.getElementById("user") as HTMLInputElement;
+    const passDom = document.getElementById("pass") as HTMLInputElement;
 
-//     const user = userDom.value.trim();
-//     const pass = passDom.value.trim();
+    const user = userDom.value.trim();
+    const pass = passDom.value.trim();
 
-//     // validate
-//     if (user == "") {
-//         userDom.focus();
-//       alert("Error : user is required");
-//       return;
-//     }
-//     if (pass == "") {
-//         passDom.focus();
-//       alert("Error : user is required");
-//       return;
-//     }
-//     login(`${user} @company.com`, pass)
-//       .then((cred) => {
-//         localStorage.setItem("credential", JSON.stringify(cred));
-//         rounter.replace("/");
-//         rounter.refresh();
-//       })
-//       .catch((errStr) => {
-//         alert(`Error: ${errStr}`);
-//       });
-//   };
+    if (user === "") {
+      userDom.focus();
+      alert("Please enter username");
+      return;
+    }
+    if (pass === "") {
+      passDom.focus();
+      alert("Please enter password");
+      return;
+    }
 
-//   return (
-//     <Backdrop isOpen={true}>
-//       <Dialog showCloseButton={false} className="w-md">
-//         <DialogHeader>
-//           <DialogTitle className="text-center">Who are you?</DialogTitle>
-//         </DialogHeader>
-//         <DialogBody>
-//           <InputGroup>
-//             <InputGroupAddon>
-//               <Keyboard />
-//             </InputGroupAddon>
-
-//             <InputGroupInput />
-
-//             <InputGroupInput type="password" placeholder="pass" />
-//           </InputGroup>
-//         </DialogBody>
-//         <DialogFooter>
-//           <DialogClose
-//             appearance="outline"
-//             className="w-fit self-end"
-//             onClick={() => handleLogin()}
-//           >
-//             Login
-//           </DialogClose>
-//         </DialogFooter>
-//       </Dialog>
-//     </Backdrop>
-//   );
-// }
+    login(`${user}@company.com`, pass)
+      .then((credential) => {
+        localStorage.setItem("credential", JSON.stringify(credential));
+        window.dispatchEvent(new Event("credential-changed"));
+        const returnPath = localStorage.getItem('returnPath' ) || '/'
+        localStorage.removeItem('returnPath')
+        router.replace(returnPath);
+        router.refresh();
+      })
+      .catch((error) => {
+        userDom.value = "";
+        passDom.value = "";
+        userDom.focus();
+        alert(`Error: ${error}`);
+      });
+  };
+  return (
+    <Backdrop isOpen={true}>
+      <Dialog showCloseButton={false} className="w-md">
+        <DialogHeader>
+          <DialogTitle className="text-center">Who are you?</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <Keyboard />
+            </InputGroupAddon>
+            <InputGroupInput id="user" placeholder="user | admin | manager" />
+            <InputGroupAddon align="inline-end">@company.com</InputGroupAddon>
+          </InputGroup>
+          <InputGroup className="mt-2">
+            <InputGroupAddon align="inline-start">
+              <EyeDisabled />
+            </InputGroupAddon>
+            <InputGroupInput id="pass" type="password" placeholder="pass" />
+            <InputGroupAddon align="inline-end"></InputGroupAddon>
+          </InputGroup>
+        </DialogBody>
+        <DialogFooter>
+          <div className="flex justify-end">
+            <DialogClose appearance="outline" onClick={() => handleLogin()}>
+              Login
+            </DialogClose>
+          </div>
+        </DialogFooter>
+      </Dialog>
+    </Backdrop>
+  );
+}

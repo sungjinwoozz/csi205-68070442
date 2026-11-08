@@ -4,7 +4,7 @@ import "./globals.css";
 import "./calculator/calculator.css";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -12,14 +12,22 @@ import { buttonStyles } from "@/components/tailgrids/core/button";
 import { createContext, useEffect, useState } from "react";
 import { fetchProducts, Product } from "./data/products";
 import { Badge } from "@/components/tailgrids/core/badge";
+import { Button } from "@/components/tailgrids/core/button";
+import { doLogout } from "@/utils/login";
+import UserInfo from "@/components/UserInfo";
 
 export const globalDataContext = createContext<any>(null);
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [carts, setCarts] = useState<Product[]>([]);
+
+  const handleLogout = () => {
+    doLogout(router, "/login");
+  };
 
   useEffect(() => {
     fetchProducts().then(data => setProducts(data as Product[]))
@@ -35,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <html>
         <body>
           <Header />
+          <UserInfo />
           <nav
             aria-label="Main navigation"
             className="mt-4 flex justify-center gap-4"
@@ -76,20 +85,28 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Link>
 
 
-            <div className="relative"> 
-            <Link href="/carts"
-              className={buttonStyles({
-                variant: "primary",
-                appearance: pathname === "/carts" ? "fill" : "outline"
-              })}>
-              Carts
-            </Link>
-            
-  
-            <Badge className='absolute -top-2 -right-2 bg-red-500 text-white'>
-              {carts.length}
-            </Badge>
+            <div className="relative">
+              <Link href="/carts"
+                className={buttonStyles({
+                  variant: "primary",
+                  appearance: pathname === "/carts" ? "fill" : "outline"
+                })}>
+                Carts
+              </Link>
+
+              <Badge className="absolute -top-2 -right-2 bg-red-500 text-white">
+                {carts.length}
+              </Badge>
             </div>
+
+            <Button
+              appearance="outline"
+              variant="danger"
+              size="sm"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
 
 
           </nav>

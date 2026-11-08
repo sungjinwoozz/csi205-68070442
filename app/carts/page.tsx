@@ -1,11 +1,20 @@
 "use client";
 
+import { CheckLogin } from "@/utils/login";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import { useEffect } from "react";
 import { Product } from "../data/products";
 import { globalDataContext } from "../layout";
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    CheckLogin(router, "/carts");
+  }, [router]);
+
   const { carts, setCarts, products, setProducts } = useContext(globalDataContext);
 
   const totalPrice = carts.reduce(

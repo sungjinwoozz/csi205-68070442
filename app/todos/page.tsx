@@ -1,5 +1,7 @@
 "use client";
 
+import { CheckLogin } from "@/utils/login";
+import { useRouter } from "next/navigation";
 import { Toggle } from "@/components/tailgrids/core/toggle";
 import {
   NativeSelect,
@@ -38,6 +40,12 @@ import type { TodoType, Todo } from "../data/todos";
 import { Tree } from "react-aria-components";
 import next from "next";
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    CheckLogin(router, "/todos");
+  }, [router]);
+
   const [isLoading, setIsloding] = useState(true);
   const [todosRaw, setTodosRaw] = useState<TodoType[]>([]);
   const [todos, setTodos] = useState<TodoType[]>([]);

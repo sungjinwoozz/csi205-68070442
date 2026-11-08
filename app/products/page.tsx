@@ -1,11 +1,20 @@
 "use client";
 
+import { CheckLogin } from "@/utils/login";
 import { useContext } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { globalDataContext } from "../layout";
 import { Product } from "../data/products";
 import Image from "next/image";
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    CheckLogin(router, "/products");
+  }, [router]);
+
   const { products, setProducts , setCarts , carts } = useContext(globalDataContext);
 
   const addToCart = (product: Product) => {

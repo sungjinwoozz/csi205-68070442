@@ -1,5 +1,7 @@
 "use client";
 
+import { CheckLogin } from "@/utils/login";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 type Phase = "first" | "operator" | "second";
@@ -37,6 +39,12 @@ function formatDisplay(display: string) {
 }
 
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    CheckLogin(router, "/calculator");
+  }, [router]);
+
   const [calculator, setCalculator] = useState(initialState);
 
   const numberClick = useCallback((number: string) => {

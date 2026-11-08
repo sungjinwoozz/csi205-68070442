@@ -1,6 +1,13 @@
+"use client";
+
+import { CheckLogin } from "@/utils/login";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const router = useRouter()
+  useEffect(() => CheckLogin(router,'/'),[router])
   return (
     <main className="mx-auto mt-6 w-full max-w-5xl px-4">
       <section className="grid overflow-hidden rounded border border-gray-300 bg-white p-1 shadow-lg md:grid-cols-[220px_1fr]">
