@@ -25,7 +25,6 @@ export default function Home() {
             <p className="font-bold">Ponrapat Sukmuang</p>
             <p>68070442</p>
             <p>Computer Science</p>
-            <p>School of Information Technology (SIT)</p>
             <p>Sripatum University (SPU)</p>
           </div>
         </div>
